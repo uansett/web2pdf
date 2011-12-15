@@ -3,11 +3,12 @@
 rssSource="http://enigma.hiof.no/external.php?do=rss&type=newcontent&sectionid=1&days=120&count=10"
 headlineTag="h1"
 
-'''If applicable'''
+'''If applicable,  only what's after class=,  or id=. if not needed,  set equal to blank'''
 headlineAttr="article_title cms_article_title"
-
+#headlineAttr=""
 
 articleTag="div"
 
-'''If applicable'''
+'''If applicable,  only what's after class=,  or id=. if not needed,  set equal to blank'''
 articleAttr="article cms_clear restore postcontainer"
+#articleAttr=""
