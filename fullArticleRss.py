@@ -30,19 +30,29 @@ def getText(nodelist):
 def getHeadlineFromArticle(urlObject, headlineTag, headlineAttr):
     soup = BeautifulSoup(urlObject)
     if headlineAttr  !=  "":
-        print soup.findAll(headlineTag, headlineAttr)[0].contents[0]
+        try:
+            return soup.findAll(headlineTag, headlineAttr)[0].contents[0]
+        except:
+            return 1
     else:
-        print soup.findAll(headlineTag)[0].contents[0]
+        try:
+            return soup.findAll(headlineTag)[0].contents[0]
+        except:
+            return 1
     
-    return 0
 
 def getArticle(urlObject, articleTag, articleAttr):
     soup = BeautifulSoup(urlObject)
     if articleAttr  !=  "":
-        print soup.findAll(articleTag,articleAttr)[0].contents[0]
+        try:
+            return soup.findAll(articleTag,articleAttr)[0].contents[0]
+        except:
+            return 1
     else:
-        print soup.findAll(articleTag)[0].contents[0]
-    return 0
+        try:
+            return soup.findAll(articleTag)[0].contents[0]
+        except:
+            return 1
 
 
 if __name__  ==  "__main__":
