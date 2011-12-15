@@ -19,9 +19,23 @@ def convertImageTags(text):
     return text
 
 
-def saveArticles(headlines, articles):
-    for i in range(0, len(headlines)):
-        print headlines[i]+"\n"+articles[i]+"\n"
+def saveArticles(filename, headlines, articles):
+    try:
+        #clear the file
+        file=open(filename, 'w')
+        file.write('')
+        file.close()
+
+        #write to file
+        file=open(filename, 'a')
+        try:
+            for i in range(0, len(headlines)):
+                file.write(headlines[i]+"\n"+articles[i]+"\n\n")
+        except:
+            print 'error writing to file'
+        file.close()
+    except:
+        print 'Could not open the file at '+filename+'.'
 
 def loadURL(source):
     try:
@@ -45,7 +59,7 @@ def removeHTMLTags(text):
     #http://love-python.blogspot.com/2008/07/strip-html-tags-using-python.html?showComment=1236583680000#c2934091903053895837
     x = re.compile(r'<[^<]*?/?>')
     return x.sub('', text)
-    return text
+    #return text
 
 
 # http://stackoverflow.com/questions/2097921/easy-way-to-get-data-between-tags-of-xml-or-html-files-in-python
@@ -67,12 +81,12 @@ def getArticle(urlObject, articleTag, articleAttr):
     soup = BeautifulSoup(urlObject)
     if articleAttr  !=  "":
         try:
-            return str(soup.findAll(articleTag,articleAttr)[0].contents[0])
+            return str(soup.findAll(articleTag,articleAttr)[0])
         except:
             return 1
     else:
         try:
-            return str(soup.findAll(articleTag)[0].contents[0])
+            return str(soup.findAll(articleTag)[0])
         except:
             return 1
 
@@ -102,8 +116,7 @@ if __name__  ==  "__main__":
             allArticles.append(removeHTMLTags(convertImageTags(articleContent)))
             allHeadlines.append(removeHTMLTags(headline))
     dom.unlink()
-    saveArticles(allHeadlines,  allArticles)
+    #print allArticles
+    saveArticles(config.savepath, allHeadlines,  allArticles)
     print 'Successfully saved articles' 
-
-
 
