@@ -28,9 +28,10 @@ def saveArticles(filename, headlines, articles):
 
         #write to file
         file=open(filename, 'a')
+        #make a HTML-parser to be sent to the translateHTMLcharCodes()-function
         try:
             for i in range(0, len(headlines)):
-                file.write(headlines[i]+"\n"+articles[i]+"\n\n")
+                file.write(translateHTMLcharCodes(headlines[i])+"\n"+translateHTMLcharCodes(articles[i])+"\n\n")
         except:
             print 'error writing to file'
         file.close()
@@ -90,6 +91,19 @@ def getArticle(urlObject, articleTag, articleAttr):
         except:
             return 1
 
+def translateHTMLcharCodes(text):
+    text = text.replace("&lt;","<")
+    text = text.replace("&gt;",">")
+    text = text.replace("&aelig;","æ")
+    text = text.replace("&AElig;","Æ")
+    text = text.replace("&oslash;","ø")
+    text = text.replace("&Oslash;","Ø")
+    text = text.replace("&aring;","å")
+    text = text.replace("&Aring;","Å")
+    text = text.replace("&ndash;","–")
+    text = text.replace("&mdash;","—")
+    text = text.replace("&amp;","&")
+    return text
 
 if __name__  ==  "__main__":
 
