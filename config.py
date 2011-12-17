@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # vim: set fileencoding=utf8 :
 '''WHERE TO SAVE THE FILE'''
-savepath='/Users/stian/git/web2pdf/output.txt'
+savepath='/Users/stian/git/web2pdf/output.tex'
 
 
 '''INFO ABOUT THE SOURCE'''

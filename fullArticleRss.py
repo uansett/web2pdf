@@ -16,6 +16,14 @@ def convertImageTags(text):
     #http://www.daniweb.com/software-development/python/threads/278313
     #x = re.compile('<img src="(.*?)".*/>', re.DOTALL).findall(text)
     #print x
+    #Maybe this is better:
+    soup = BeautifulSoup(text)
+    images = soup.findAll("img")
+    for img in images:
+        #NOTE: this does NOT work.
+        text  += "\n\\write18{wget "+str(img["src"])+"}\n"
+        text  += "\n\\includegraphics{"+str(img["src"].split("/")[-1])+"}\n"
+    
     return text
 
 
@@ -30,8 +38,24 @@ def saveArticles(filename, headlines, articles):
         file=open(filename, 'a')
         #make a HTML-parser to be sent to the translateHTMLcharCodes()-function
         try:
+            file.write("""\documentclass[letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[norsk]{babel}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{textcomp}
+\\title{Kaffebønna nyhetsbrev}
+\\date{traktet \\today}
+\\author{ }
+\\begin{document}
+\\maketitle
+
+"""
+)
+
+
             for i in range(0, len(headlines)):
-                file.write(translateHTMLcharCodes(headlines[i])+"\n"+translateHTMLcharCodes(articles[i])+"\n\n")
+                file.write("\\subsection{"+translateHTMLcharCodes(headlines[i])+"}\n\n"+"\n"+translateHTMLcharCodes(articles[i])+"\n\n")
+            file.write("\\end{document}")
         except:
             print 'error writing to file'
         file.close()
@@ -102,7 +126,12 @@ def translateHTMLcharCodes(text):
     text = text.replace("&Aring;","Å")
     text = text.replace("&ndash;","–")
     text = text.replace("&mdash;","—")
+    text = text.replace("&laquo;","«")
+    text = text.replace("&raquo;","»")
     text = text.replace("&amp;","&")
+    #for LaTex
+    text = text.replace("&", "\&") #Problem with image links?
+    text = text.replace("#", "\#")
     return text
 
 if __name__  ==  "__main__":
